@@ -17,6 +17,15 @@ function isTokenValid(req, res, next) {
   }
 }
 
+function isUserAdmin(req, res, next) {
+  if (req.payload.role === "admin") {
+    next(); // continua con la ruta
+  } else {
+    res.status(401).json("no eres un admin, fuera de aqui");
+  }
+}
+
 module.exports = {
   isTokenValid,
+  isUserAdmin,
 };
