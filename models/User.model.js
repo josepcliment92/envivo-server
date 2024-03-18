@@ -22,6 +22,10 @@ const userSchema = new Schema(
       type: String,
       enum: ["admin", "user"],
       default: "user"
+    },
+    favouriteFestivals: {
+      type: [Schema.Types.ObjectId],
+      ref: "Festival" // array. necesito rutas para añadir festival a array favoritos. clase miercoles semana 7, ver ruta para agregar o quitar elementos de un array. hacerla en perfil.routes.
     }
   },
   {

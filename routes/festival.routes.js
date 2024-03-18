@@ -58,11 +58,10 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-//editar todos los detalles de un festival
+//editar detalles de un festival
 router.put("/:festivalId", async (req, res, next) => {
   const {
     name,
-    image,
     startDate,
     endDate,
     city,
@@ -74,41 +73,53 @@ router.put("/:festivalId", async (req, res, next) => {
     extraInfo,
   } = req.body;
   try {
-    const response = await Festival.findByIdAndUpdate(req.params.festivalId, {
-      name,
-      image,
-      startDate,
-      endDate,
-      city,
-      region,
-      artists,
-      genres,
-      minPrize,
-      campingArea,
-      extraInfo,
-    }, {new: true});
+    const response = await Festival.findByIdAndUpdate(
+      req.params.festivalId,
+      {
+        name,
+        startDate,
+        endDate,
+        city,
+        region,
+        artists,
+        genres,
+        minPrize,
+        campingArea,
+        extraInfo,
+      },
+      { new: true }
+    );
     res.status(202).json({ message: "festival actualizado" });
   } catch (error) {
     next(error);
   }
-})
+});
 
-//editar solo los detalles generales de un festival
-
-//editar solo la ubicación de un festival
-
-//editar solo los artistas de un festival
+//editar solo la imagen de un festival
+router.patch("/:festivalId", async (req, res, next) => {
+  const { image } = req.body;
+  try {
+    const response = await Festival.findByIdAndUpdate(
+      req.params.festivalId,
+      {
+        image,
+      },
+      { new: true }
+    );
+    res.status(202).json({ message: "imagen actualizada" });
+  } catch (error) {
+    next(error);
+  }
+});
 
 //eliminar un festival
 router.delete("/:festivalId", async (req, res, next) => {
-    try {
-  
-      await Festival.findByIdAndDelete(req.params.festivalId)
-      res.status(202).json({message: "festival eliminado"})
-      
-    } catch (error) {
-      next(error)
-    }
-  })
+  try {
+    await Festival.findByIdAndDelete(req.params.festivalId);
+    res.status(202).json({ message: "festival eliminado" });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

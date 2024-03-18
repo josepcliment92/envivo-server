@@ -1,33 +1,34 @@
 const router = require("express").Router();
 
 const { isTokenValid } = require("../middlewares/auth.middlewares");
-const Usuario = require("../models/User.model");
+const User = require("../models/User.model");
 
 //lee los detalles de tu perfil
-router.get("/:perfilId", isTokenValid, async (req, res, next) => {
+router.get("/", isTokenValid, async (req, res, next) => {
   try {
-    const response = await Usuario.findById(req.params.id).select({
+    const response = await User.findById(req.payload._id).select({
       name: 1,
       email: 1,
       role: 1,
     });
     res.status(200).json(response);
+    //console.log(response)
   } catch (error) {
     next(error);
   }
 });
 
 //edita los detalles de tu perfil
-router.put("/:perfilId", isTokenValid, async (req, res, next) => {
-  const { name, email, password, role } = req.body;
+router.put("/", isTokenValid, async (req, res, next) => {
+  const { name, email, password } = req.body;
   try {
-    const response = Usuario.findByIdAndUpdate(
-      req.params.perfilId,
+    const response = User.findByIdAndUpdate(
+      req.payload._id,
+      //console.log(req.payload._id),
       {
         name,
         email,
-        password,
-        role,
+        password
       },
       { new: true }
     );
@@ -38,10 +39,25 @@ router.put("/:perfilId", isTokenValid, async (req, res, next) => {
 });
 
 //elimina tu perfil
-router.delete("/:perfilId", isTokenValid, async (req, res, next) => {
+router.delete("/", isTokenValid, async (req, res, next) => {
   try {
-    await Usuario.findByIdAndDelete(req.params.perfilId);
+    await User.findByIdAndDelete(req.payload._id);
     res.status(202).json({ message: "usuario borrado" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//agregar nuevos festivales a la propiedad "favouriteFestivals" (guardar un festival en favoritos)
+router.patch("/", isTokenValid, async (req, res, next) => {
+  try {
+    const festivalId = req.body._id
+    const response = await User.findByIdAndUpdate(
+      req.params.id, //no estoy seguro de esta ruta, PREGUNTAR A JORGE
+      { $addToSet: { favouriteFestivals: festivalId } },
+      { new: true }
+    );
+    res.status(200).json(response);
   } catch (error) {
     next(error);
   }

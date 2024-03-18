@@ -20,7 +20,5 @@ router.use("/auth", authRouter)
 const perfilRouter = require("./perfil.routes")
 router.use("/perfil", perfilRouter)
 
-//¿ARTISTA RUTAS? CREO QUE NO
-
 
 module.exports = router;

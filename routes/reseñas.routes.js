@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { isTokenValid } = require("../middlewares/auth.middlewares");
 
 const Reseña = require("../models/Reseña.model");
 
@@ -17,25 +18,31 @@ router.get("/:festivalId", async (req, res, next) => {
 });
 
 //crear una nueva reseña
-router.post("/:festivalId", async (req, res, next) => {
+router.post("/:festivalId", isTokenValid, async (req, res, next) => {
+  //confirmar que el usuario está logueado para realizar esta acción. user viene de BE (ultima parte clase autenticador)
   const {
-    user,
-    festival,
     yourFavouriteThing,
     whatWouldYouImprove,
     moreObservations,
     overallRating,
   } = req.body;
+
   try {
     const response = await Reseña.create({
-      user,
-      festival,
+      user: req.payload._id,
+      festival: req.params.festivalId,
       yourFavouriteThing,
       whatWouldYouImprove,
       moreObservations,
       overallRating,
     });
-    res.status(201).json(response);
+    if (req.payload.role === "admin" || "user") {
+      res.status(201).json(response);
+    } else {
+      res
+        .status(400)
+        .json({ message: "tienes que registrarte para poder dejar tu reseña" });
+    }
   } catch (error) {
     next(error);
   }
