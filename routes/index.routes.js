@@ -10,7 +10,7 @@ router.use("/festivales", festivalRouter)
 
 //RESEÑAS RUTAS
 const reseñaRouter = require("./reseñas.routes")
-router.use("/reseñas", reseñaRouter)
+router.use("/resenas", reseñaRouter)
 
 //AUTH ROUTES
 const authRouter = require("./auth.routes")

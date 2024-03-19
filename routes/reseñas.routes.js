@@ -6,11 +6,10 @@ const Reseña = require("../models/Reseña.model");
 //mostrar todas las reseñas de un festival
 router.get("/:festivalId", async (req, res, next) => {
   const festivalId = req.params.festivalId;
+  console.log(festivalId)
 
   try {
-    const response = await Reseña.find({ festival: festivalId }).populate(
-      "Festival"
-    );
+    const response = await Reseña.find({ festival: festivalId });
     res.status(200).json(response);
   } catch (error) {
     next(error);
@@ -26,33 +25,26 @@ router.post("/:festivalId", isTokenValid, async (req, res, next) => {
     moreObservations,
     overallRating,
   } = req.body;
+    try {
+      const response = await Reseña.create({
+        user: req.payload._id,
+        festival: req.params.festivalId,
+        yourFavouriteThing,
+        whatWouldYouImprove,
+        moreObservations,
+        overallRating,
+      });
 
-  try {
-    const response = await Reseña.create({
-      user: req.payload._id,
-      festival: req.params.festivalId,
-      yourFavouriteThing,
-      whatWouldYouImprove,
-      moreObservations,
-      overallRating,
-    });
-    if (req.payload.role === "admin" || "user") {
       res.status(201).json(response);
-    } else {
-      res
-        .status(400)
-        .json({ message: "tienes que registrarte para poder dejar tu reseña" });
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 //editar una reseña
-router.put("/:reseñaId", async (req, res, next) => {
+router.patch("/:resenaId", async (req, res, next) => {
   const {
-    user,
-    festival,
     yourFavouriteThing,
     whatWouldYouImprove,
     moreObservations,
@@ -60,10 +52,8 @@ router.put("/:reseñaId", async (req, res, next) => {
   } = req.body;
   try {
     const response = await Reseña.findByIdAndUpdate(
-      req.params.reseñaId,
+      req.params.resenaId,
       {
-        user,
-        festival,
         yourFavouriteThing,
         whatWouldYouImprove,
         moreObservations,
@@ -78,9 +68,9 @@ router.put("/:reseñaId", async (req, res, next) => {
 });
 
 //borrar una reseña
-router.delete("/:reseñaId", async (req, res, next) => {
+router.delete("/:resenaId", async (req, res, next) => {
   try {
-    await Reseña.findByIdAndDelete(req.params.reseñaId);
+    await Reseña.findByIdAndDelete(req.params.resenaId);
     res.status(202).json({ message: "reseña borrada" });
   } catch (error) {
     next(error);

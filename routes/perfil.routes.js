@@ -22,9 +22,8 @@ router.get("/", isTokenValid, async (req, res, next) => {
 router.put("/", isTokenValid, async (req, res, next) => {
   const { name, email, password } = req.body;
   try {
-    const response = User.findByIdAndUpdate(
+    const response = await User.findByIdAndUpdate(
       req.payload._id,
-      //console.log(req.payload._id),
       {
         name,
         email,
@@ -51,9 +50,9 @@ router.delete("/", isTokenValid, async (req, res, next) => {
 //agregar nuevos festivales a la propiedad "favouriteFestivals" (guardar un festival en favoritos)
 router.patch("/", isTokenValid, async (req, res, next) => {
   try {
-    const festivalId = req.body._id
+    const festivalId = req.body.festivalIdToAdd
     const response = await User.findByIdAndUpdate(
-      req.params.id, //no estoy seguro de esta ruta, PREGUNTAR A JORGE
+      req.payload._id, 
       { $addToSet: { favouriteFestivals: festivalId } },
       { new: true }
     );
