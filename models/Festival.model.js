@@ -36,6 +36,7 @@ const festivalSchema = new Schema({
   },
   artists: {
     type: [String],
+    required: true
   },
   genres: {
     type: [String],
@@ -50,6 +51,7 @@ const festivalSchema = new Schema({
       "urbano",
       "hip hop",
       "reggaeton",
+      "otros"
     ],
   },
   minPrize: {

@@ -20,5 +20,9 @@ router.use("/auth", authRouter)
 const perfilRouter = require("./perfil.routes")
 router.use("/perfil", perfilRouter)
 
+//UPLOAD IMAGES RUTAS (CLOUDINARY)
+const uploadRoutes = require("./upload.routes");
+router.use("/upload", uploadRoutes);
+
 
 module.exports = router;

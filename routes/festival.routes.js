@@ -52,7 +52,7 @@ router.post("/", async (req, res, next) => {
       campingArea,
       extraInfo,
     });
-    res.status(201).json({ message: "nuevo festival creado" });
+    res.status(201).json(response._id);
   } catch (error) {
     next(error);
   }
@@ -62,6 +62,7 @@ router.post("/", async (req, res, next) => {
 router.put("/:festivalId", async (req, res, next) => {
   const {
     name,
+    image,
     startDate,
     endDate,
     city,
@@ -77,6 +78,7 @@ router.put("/:festivalId", async (req, res, next) => {
       req.params.festivalId,
       {
         name,
+        image,
         startDate,
         endDate,
         city,
@@ -96,7 +98,7 @@ router.put("/:festivalId", async (req, res, next) => {
 });
 
 //editar solo la imagen de un festival
-router.patch("/:festivalId", async (req, res, next) => {
+/*router.patch("/:festivalId", async (req, res, next) => {
   const { image } = req.body;
   try {
     const response = await Festival.findByIdAndUpdate(
@@ -110,7 +112,7 @@ router.patch("/:festivalId", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+});*/
 
 //eliminar un festival
 router.delete("/:festivalId", async (req, res, next) => {

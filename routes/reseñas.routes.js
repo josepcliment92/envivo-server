@@ -6,7 +6,7 @@ const Reseña = require("../models/Reseña.model");
 //mostrar todas las reseñas de un festival
 router.get("/:festivalId", async (req, res, next) => {
   const festivalId = req.params.festivalId;
-  console.log(festivalId)
+  console.log(festivalId);
 
   try {
     const response = await Reseña.find({ festival: festivalId });
@@ -25,22 +25,36 @@ router.post("/:festivalId", isTokenValid, async (req, res, next) => {
     moreObservations,
     overallRating,
   } = req.body;
-    try {
-      const response = await Reseña.create({
-        user: req.payload._id,
-        festival: req.params.festivalId,
-        yourFavouriteThing,
-        whatWouldYouImprove,
-        moreObservations,
-        overallRating,
-      });
+  try {
+    const response = await Reseña.create({
+      user: req.payload._id,
 
-      res.status(201).json(response);
-    } catch (error) {
-      next(error);
-    }
+      festival: req.params.festivalId,
+      yourFavouriteThing,
+      whatWouldYouImprove,
+      moreObservations,
+      overallRating,
+    });
+
+    res.status(201).json(response.festival);
+  } catch (error) {
+    next(error);
   }
-);
+});
+
+//acceder a una reseña específica
+router.get("/username/:resenaId", async (req, res, next) => {
+  const resenaId = req.params.resenaId;
+  console.log(resenaId)
+
+  try {
+    const response = await Reseña.findById(resenaId).populate("user");
+    console.log(response)
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json({ message: "Usuario no encontrado" });
+  }
+});
 
 //editar una reseña
 router.patch("/:resenaId", async (req, res, next) => {
