@@ -9,7 +9,7 @@ router.get("/", (req, res, next) => {
       res.status(200).json(festivales);
     })
     .catch((error) => {
-      next(error); //PULIR ESTO
+      next(error);
     });
 });
 
@@ -96,23 +96,6 @@ router.put("/:festivalId", async (req, res, next) => {
     next(error);
   }
 });
-
-//editar solo la imagen de un festival
-/*router.patch("/:festivalId", async (req, res, next) => {
-  const { image } = req.body;
-  try {
-    const response = await Festival.findByIdAndUpdate(
-      req.params.festivalId,
-      {
-        image,
-      },
-      { new: true }
-    );
-    res.status(202).json({ message: "imagen actualizada" });
-  } catch (error) {
-    next(error);
-  }
-});*/
 
 //eliminar un festival
 router.delete("/:festivalId", async (req, res, next) => {

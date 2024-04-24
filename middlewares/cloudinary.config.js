@@ -12,7 +12,7 @@ cloudinary.config({
     cloudinary,
     params: {
       allowed_formats: ["jpg", "png"],
-      folder: "envivo-images-folder", // The name of the folder where images will be stored in cloudinary
+      folder: "envivo-images-folder", 
     },
   });
   

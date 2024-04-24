@@ -18,7 +18,6 @@ router.get("/:festivalId", async (req, res, next) => {
 
 //crear una nueva reseña
 router.post("/:festivalId", isTokenValid, async (req, res, next) => {
-  //confirmar que el usuario está logueado para realizar esta acción. user viene de BE (ultima parte clase autenticador)
   const {
     yourFavouriteThing,
     whatWouldYouImprove,

@@ -1,9 +1,6 @@
-
-
 const { Schema, model } = require("mongoose");
 const { default: citiesArr } = require("./utils/citiesArr");
 const { default: regionsArr } = require("./utils/regionsArr");
-
 
 const festivalSchema = new Schema({
   name: {
@@ -13,8 +10,7 @@ const festivalSchema = new Schema({
   },
   image: {
     type: String,
-    default:
-      "https://images.ecestaticos.com/V-BFQif9aRCJoj_W4WxB8ffFgkE=/49x0:2211x1622/557x418/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Fdc8%2F0bd%2Ff1c%2Fdc80bdf1cc8349bcb6d17e68096603b9.jpg",
+    required: true,
   },
   startDate: {
     type: Date,
@@ -36,7 +32,7 @@ const festivalSchema = new Schema({
   },
   artists: {
     type: [String],
-    required: true
+    required: true,
   },
   genres: {
     type: [String],
@@ -51,7 +47,7 @@ const festivalSchema = new Schema({
       "urbano",
       "hip hop",
       "reggaeton",
-      "otros"
+      "otros",
     ],
   },
   minPrize: {

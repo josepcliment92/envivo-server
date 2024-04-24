@@ -12,7 +12,6 @@ router.get("/", isTokenValid, async (req, res, next) => {
       role: 1,
     });
     res.status(200).json(response);
-    //console.log(response)
   } catch (error) {
     next(error);
   }
